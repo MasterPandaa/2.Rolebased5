@@ -1,7 +1,7 @@
-import sys
 import random
+import sys
 from dataclasses import dataclass
-from typing import List, Tuple, Set
+from typing import List, Set, Tuple
 
 import pygame
 
@@ -35,8 +35,12 @@ class Food:
 
     def respawn(self, snake_positions: Set[Tuple[int, int]]) -> None:
         """Place food in a random free cell avoiding the snake's body."""
-        free_cells = [(x, y) for x in range(GRID_COLS) for y in range(GRID_ROWS)
-                      if (x, y) not in snake_positions]
+        free_cells = [
+            (x, y)
+            for x in range(GRID_COLS)
+            for y in range(GRID_ROWS)
+            if (x, y) not in snake_positions
+        ]
         if not free_cells:
             # No free cell: player wins; keep current position (game will end elsewhere)
             return
@@ -108,7 +112,8 @@ class Snake:
     def draw(self, surface: pygame.Surface) -> None:
         # Draw head darker for clarity
         for i, (x, y) in enumerate(self.segments):
-            rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE,
+                               CELL_SIZE, CELL_SIZE)
             color = DARK_GREEN if i == 0 else GREEN
             pygame.draw.rect(surface, color, rect)
 
@@ -121,7 +126,9 @@ def draw_grid(surface: pygame.Surface) -> None:
         pygame.draw.line(surface, GRAY, (0, y), (WIDTH, y))
 
 
-def render_text(surface: pygame.Surface, text: str, pos: Tuple[int, int], font: pygame.font.Font) -> None:
+def render_text(
+    surface: pygame.Surface, text: str, pos: Tuple[int, int], font: pygame.font.Font
+) -> None:
     img = font.render(text, True, WHITE)
     surface.blit(img, pos)
 
